@@ -1,0 +1,4 @@
+[ollama]
+model = "llama3.2" # replace with your desired model, ensure it is available locally
+[discord]
+token = "" # add your discord bots token here
