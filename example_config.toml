@@ -1,4 +1,6 @@
-[ollama]
-model = "llama3.2" # replace with your desired model, ensure it is available locally
 [discord]
 token = "" # add your discord bots token here
+
+[ollama]
+model = "llama3.2" # replace with your desired model, ensure it is available locally
+uri = "http://host.docker.internal:11434/api/chat" # use localhost instead of host.docker.internal if not running in docker

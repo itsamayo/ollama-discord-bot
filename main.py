@@ -34,7 +34,7 @@ def generate_response(prompt, conversation_history, config):
     }
 
     try:
-        response = requests.post(config['ollama']['api_url'], json=data)
+        response = requests.post(config['ollama']['uri'], json=data)
         response.raise_for_status()  # Raise exception for HTTP errors
         response_data = response.json()
 
@@ -76,7 +76,6 @@ class DiscordBot(discord.Client):
 
 if __name__ == "__main__":    
     config = load_config()
-    config['ollama']['api_url'] = "http://host.docker.internal:11434/api/chat"
     
     intents = discord.Intents.default()
     intents.message_content = True
