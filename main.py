@@ -48,6 +48,41 @@ def generate_response(prompt, conversation_history, config):
         return "Error: Unable to fetch response from the API."
     except (json.JSONDecodeError, KeyError):
         return "Error: Invalid API response."
+    
+def split_message(response):
+        """Splits a message into chunks suitable for Discord (<= 2000 characters) while preserving formatting."""
+        max_length = 2000
+        chunks = []
+        buffer = ""
+
+        def append_chunk():
+            nonlocal buffer
+            if buffer.strip():
+                chunks.append(buffer.strip())
+            buffer = ""
+
+        for part in response.split("\n\n"):  # Split by paragraphs
+            if len(buffer) + len(part) + 2 <= max_length:  # +2 accounts for the added `\n\n`
+                buffer += ("" if not buffer else "\n\n") + part
+            else:
+                append_chunk()
+                if len(part) <= max_length:
+                    buffer = part
+                else:
+                    # Further split long sections (like code blocks)
+                    for subpart in part.split("\n"):
+                        if len(buffer) + len(subpart) + 1 <= max_length:  # +1 accounts for `\n`
+                            buffer += ("" if not buffer else "\n") + subpart
+                        else:
+                            append_chunk()
+                            if len(subpart) <= max_length:
+                                buffer = subpart
+                            else:
+                                # Split strings without spaces or extremely long lines
+                                for i in range(0, len(subpart), max_length):
+                                    chunks.append(subpart[i:i + max_length])
+        append_chunk()
+        return chunks
 
 
 class DiscordBot(discord.Client):
@@ -59,6 +94,7 @@ class DiscordBot(discord.Client):
     async def on_ready(self):
         print(f'Logged in as {self.user}')
 
+    # Updated `on_message` to handle splitting responses
     async def on_message(self, message):
         if message.author == self.user or message.author.bot:
             return
@@ -69,9 +105,12 @@ class DiscordBot(discord.Client):
             try:
                 async with message.channel.typing():
                     response = generate_response(prompt, self.conversation_history, self.config)
-                    await message.channel.send(response)
+                    message_chunks = split_message(response)
+                    for chunk in message_chunks:
+                        await message.channel.send(chunk)
             except discord.errors.Forbidden:
                 print(f"Error: No permission to send messages in {message.channel.name}")
+
 
 
 if __name__ == "__main__":    
