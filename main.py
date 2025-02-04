@@ -94,7 +94,6 @@ class DiscordBot(discord.Client):
     async def on_ready(self):
         print(f'Logged in as {self.user}')
 
-    # Updated `on_message` to handle splitting responses
     async def on_message(self, message):
         if message.author == self.user or message.author.bot:
             return
