@@ -1,4 +1,4 @@
-# discord + ollama bot
+# ollama + discord bot
 Discord bot that uses a locally running instance of an ollama model of your choice
 
 ## Setup (requires at least Python 3.11)
