@@ -5,7 +5,7 @@ Discord bot that uses a locally running instance of an ollama model of your choi
 1. [Install Docker](https://www.docker.com/)
 2. [Install Ollama](https://ollama.com/download/)
 3. Run `git clone git@github.com:itsamayo/ollama-discord-bot.git`
-4. Run `cp example_config.toml config.toml` and replace add your bot's token and the model of your choice (ensure the model is available locally)
+4. Run `cp example_config.toml config.toml` and add your bot's token and the model of your choice (ensure the model is available locally in ollama i.e `ollama pull llama3.2:3b`)
 
 ## Quickstart
 1. Run `python main.py`
