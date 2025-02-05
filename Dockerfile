@@ -5,6 +5,7 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
+# this is for ollama
 EXPOSE 11434
 
 CMD ["python", "main.py"]
