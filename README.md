@@ -17,4 +17,4 @@ Discord bot that uses a locally running instance of an ollama model of your choi
 ## Usage
 1. Tag your bot in a message followed by your request i.e `@yourbot give me the 118th number in the Fibonacci sequence`
 
-***Note: Due to limitations on the Discord API where a single message can't contain more than 2k characters, responses from the LLM are chunked into multiple messages when necessary***
+***Note: Due to limitations on the Discord API where a single message can't contain more than 2k characters, responses from the LLM are chunked into multiple messages when necessary (gracefully, i.e code blocks and paragraphs formatting is maintained)***
